@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  loadmore: { alignItems: 'center', marginTop: 15 },
 });
 
 const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, username }) => {
@@ -105,7 +106,7 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, use
 
   return (
     <View>
-      <View style={{ borderWidth: 1 }}>
+      <View>
         <Grid
           gap={gap}
           column={column}
@@ -115,7 +116,7 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, use
         />
       </View>
       {rowState * column < (instaSection.posts?.length || Infinity) && (
-        <View style={{ alignItems: 'center' }}>
+        <View style={styles.loadmore}>
           <Button borderRadius="round" onPress={handleLoadMore} backgroundColor={setting.link_color} color="#fff">
             {setting.btn_action_loadmore.text}
           </Button>

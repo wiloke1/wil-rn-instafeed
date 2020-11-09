@@ -1,7 +1,8 @@
 import React, { useRef, memo } from 'react';
 import { WebView } from 'react-native-webview';
-import { FlatList, Image, StatusBar } from 'react-native';
+import { Image, StatusBar } from 'react-native';
 import RNSuspense from "../RNSuspense/RNSuspense";
+import Carousel from "../Carousel/Carousel";
 import styles from './styles';
 var getHtmlVideo = function (videoUrl, imageSrc, width, height) { return "\n    <body style=\"margin: 0;padding:0;overflow: hidden\">\n      <div style=\"position: relative; width: 100%; background-size: cover; background-position: 50% 50%; background-image: url('" + imageSrc + "')\">\n        <video style=\"position: absolute;top:0;left:0;width: 100%;height: 100%\" controls=\"true\" name=\"media\"><source src=" + videoUrl + " type=\"video/mp4\" /></video>\n        <div style=\"padding-top: " + (height / width) * 100 + "%\"></div>\n      </div>\n    </body>\n  "; };
 var ImageCardFeatured = function (_a) {
@@ -22,7 +23,7 @@ var ImageCardFeatured = function (_a) {
     };
     if (!!gallery) {
         return (React.createElement(RNSuspense, null,
-            React.createElement(FlatList, { horizontal: true, pagingEnabled: true, removeClippedSubviews: true, showsHorizontalScrollIndicator: false, data: gallery, renderItem: function (_a) {
+            React.createElement(Carousel, { horizontal: true, pagingEnabled: true, removeClippedSubviews: true, showsHorizontalScrollIndicator: false, data: gallery, renderItem: function (_a) {
                     var item = _a.item;
                     if (item.video) {
                         return renderVideo(item.videoUrl, item.thumbnails[1].src);

@@ -19,5 +19,5 @@ export default function Grid<T extends any>({ data, column = 1, gap = 5, renderI
     );
   };
 
-  return <View style={[styles.container, { margin: -gap }]}>{data.map(_renderItem)}</View>;
+  return <View style={[styles.container, { marginHorizontal: -gap }]}>{data.map(_renderItem)}</View>;
 }

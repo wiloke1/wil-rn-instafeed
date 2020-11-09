@@ -58,6 +58,7 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    loadmore: { alignItems: 'center', marginTop: 15 },
 });
 var InstaFeed = function (_a) {
     var _b;
@@ -120,9 +121,9 @@ var InstaFeed = function (_a) {
             React.createElement(ActivityIndicator, { size: "small", color: "#666" })));
     }
     return (React.createElement(View, null,
-        React.createElement(View, { style: { borderWidth: 1 } },
+        React.createElement(View, null,
             React.createElement(Grid, { gap: gap, column: column, data: getInstaData(instaSection, rowState, column), keyExtractor: function (item) { return item.shortcode; }, renderItem: renderInstaItem })),
-        rowState * column < (((_b = instaSection.posts) === null || _b === void 0 ? void 0 : _b.length) || Infinity) && (React.createElement(View, { style: { alignItems: 'center' } },
+        rowState * column < (((_b = instaSection.posts) === null || _b === void 0 ? void 0 : _b.length) || Infinity) && (React.createElement(View, { style: styles.loadmore },
             React.createElement(Button, { borderRadius: "round", onPress: handleLoadMore, backgroundColor: setting.link_color, color: "#fff" }, setting.btn_action_loadmore.text))),
         React.createElement(ModalInsta, { instaSection: instaSection, setting: setting })));
 };

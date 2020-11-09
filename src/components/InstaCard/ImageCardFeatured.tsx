@@ -1,8 +1,9 @@
 import { GalleryItem } from 'api/Instagram';
 import React, { FC, useRef, memo } from 'react';
 import { WebView } from 'react-native-webview';
-import { FlatList, Image, StatusBar } from 'react-native';
+import { Image, StatusBar } from 'react-native';
 import RNSuspense from 'components/RNSuspense/RNSuspense';
+import Carousel from 'components/Carousel/Carousel';
 import styles from './styles';
 
 export interface ImageCardFeaturedProps {
@@ -61,7 +62,7 @@ const ImageCardFeatured: FC<ImageCardFeaturedProps> = ({ imageSrc, height, width
   if (!!gallery) {
     return (
       <RNSuspense>
-        <FlatList
+        <Carousel
           horizontal
           pagingEnabled
           removeClippedSubviews

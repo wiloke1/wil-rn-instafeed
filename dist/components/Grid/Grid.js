@@ -6,5 +6,5 @@ export default function Grid(_a) {
     var _renderItem = function (item, index) {
         return (React.createElement(View, { key: keyExtractor(item, index), style: [styles.item, { width: 100 / column + "%", padding: gap / 2 }] }, renderItem(item, index)));
     };
-    return React.createElement(View, { style: [styles.container, { margin: -gap }] }, data.map(_renderItem));
+    return React.createElement(View, { style: [styles.container, { marginHorizontal: -gap }] }, data.map(_renderItem));
 }
