@@ -1,0 +1,102 @@
+{
+  "name": "wil-rn-instafeed",
+  "version": "1.0.3",
+  "description": "React Native Instafeed ...",
+  "author": "wiloke1",
+  "license": "MIT",
+  "repository": "wiloke1/wil-rn-instafeed",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "jsnext:main": "dist/index.js",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "scripts": {
+    "build:ts": "ttsc && babel src --out-dir dist",
+    "build": "rm -rf dist && yarn build:ts && cp -R dist example/node_modules/wil-rn-instafeed",
+    "start": "export NODE_ENV=dev && rm -rf example/node_modules/wil-rn-instafeed/dist && yarn build && node ./index.js",
+    "test": "cross-env CI=1 react-scripts-ts test --env=jsdom",
+    "test:watch": "react-scripts-ts test --env=jsdom",
+    "prepare": "yarn run build",
+    "predeploy": "cd example && yarn install && yarn run build",
+    "deploy": "gh-pages -d example/build",
+    "eslint": "eslint src --ext .ts,.tsx --fix"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "yarn eslint",
+      "git add"
+    ],
+    "{*.json,.{babelrc,eslintrc,prettierrc}}": [
+      "prettier --ignore-path .eslintignore --parser json --write",
+      "git add"
+    ],
+    "*.{test.ts,test.tsx}": [
+      "yarn test-ci",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "@react-native-community/slider": "^3.0.3",
+    "dayjs": "^1.9.5",
+    "expo-av": "^8.6.0",
+    "react-native-webview": "^10.10.2",
+    "with-default-props": "^0.2.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@rollup/plugin-commonjs": "^16.0.0",
+    "@svgr/rollup": "^2.4.1",
+    "@types/jest": "^23.1.5",
+    "@types/ramda": "^0.27.3",
+    "@types/react": "^16.3.13",
+    "@types/react-dom": "^16.0.5",
+    "@types/react-native": "^0.62.2",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "@typescript-eslint/typescript-estree": "^2.12.0",
+    "@zerollup/ts-transform-paths": "^1.7.18",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-runtime": "^6.26.0",
+    "chokidar": "^3.4.3",
+    "cross-env": "^6.0.3",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-json": "^2.0.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "gh-pages": "^1.2.0",
+    "husky": "^3.1.0",
+    "lint-staged": "8.1.7",
+    "prettier": "^1.19.1",
+    "react-scripts-ts": "^2.16.0",
+    "rollup": "^2.33.1",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-copy": "^3.3.0",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-peer-deps-external": "^2.2.0",
+    "rollup-plugin-postcss": "^1.6.2",
+    "rollup-plugin-typescript2": "^0.17.0",
+    "rollup-plugin-url": "^1.4.0",
+    "ttypescript": "^1.5.12",
+    "typescript": "^4.0.5",
+    "typescript-transform-paths": "^2.0.2",
+    "unimodules-permissions-interface": "^5.3.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
