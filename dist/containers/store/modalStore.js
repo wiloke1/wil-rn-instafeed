@@ -10,43 +10,24 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import createState from "../../utils/createState";
-var initialState = {
-    isVisible: false,
-    isVisibleDone: false,
-    idActive: '',
-    indexActive: 0,
-};
+var initialState = {};
 var _a = createState(initialState), getState = _a.getState, setState = _a.setState, subscribe = _a.subscribe;
-var handleOpenModal = function (id, index) {
-    setState({
-        isVisible: true,
-        idActive: id,
-        indexActive: index,
+var handleOpenModal = function (id, slotId, index) {
+    setState(function (state) {
+        var _a;
+        return (__assign(__assign({}, state), (_a = {}, _a[slotId] = __assign(__assign({}, state[slotId]), { isVisible: true, idActive: id, indexActive: index }), _a)));
     })('handleOpenModal');
 };
-var handleCloseModal = function () {
-    setState({
-        isVisible: false,
-        idActive: '',
-        indexActive: 0,
+var handleCloseModal = function (slotId) {
+    setState(function (state) {
+        var _a;
+        return (__assign(__assign({}, state), (_a = {}, _a[slotId] = __assign(__assign({}, state[slotId]), { isVisible: false, idActive: '', indexActive: 0 }), _a)));
     })('handleCloseModal');
-};
-var handleOpenModalDone = function () {
-    setState(function (state) { return (__assign(__assign({}, state), { isVisibleDone: true })); })('handleOpenModalDone');
-};
-var handleCloseModalDone = function () {
-    setState(function (state) { return (__assign(__assign({}, state), { isVisibleDone: false })); })('handleCloseModalDone');
-};
-var setIndexActive = function (index) {
-    setState(function (state) { return (__assign(__assign({}, state), { indexActive: index })); })('setIndexActive');
 };
 var modalStore = {
     getState: getState,
     subscribe: subscribe,
     handleOpenModal: handleOpenModal,
     handleCloseModal: handleCloseModal,
-    handleOpenModalDone: handleOpenModalDone,
-    handleCloseModalDone: handleCloseModalDone,
-    setIndexActive: setIndexActive,
 };
 export default modalStore;

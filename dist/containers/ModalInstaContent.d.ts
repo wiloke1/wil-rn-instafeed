@@ -1,9 +1,10 @@
-import { FC } from 'react';
+import React from 'react';
 import { Setting } from "../types";
 import { AppStore } from './store/appStore';
 export interface ModalInstaContentProps {
     instaSection: AppStore[0];
     setting: Setting;
+    slotId: string;
 }
-declare const ModalInstaContent: FC<ModalInstaContentProps>;
-export default ModalInstaContent;
+declare const _default: React.NamedExoticComponent<ModalInstaContentProps>;
+export default _default;

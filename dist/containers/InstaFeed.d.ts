@@ -6,9 +6,13 @@ export interface InstaFeedProps {
      */
     settings?: Settings;
     /**
-     * Instagram username
+     * chỗ đặt instagram
      */
-    username: string;
+    slotId: string;
+    /**
+     * container width
+     */
+    containerWidth: number;
 }
 declare const InstaFeed: FC<InstaFeedProps>;
 export default InstaFeed;

@@ -38,14 +38,14 @@ var styles = StyleSheet.create({
         alignItems: 'center',
     },
     pagerItem: {
-        width: 8,
-        height: 8,
-        borderRadius: 8,
+        width: 6,
+        height: 6,
+        borderRadius: 6,
         marginHorizontal: 3,
     },
 });
 var Carousel = function (_a) {
-    var data = _a.data, onMomentumScrollEnd = _a.onMomentumScrollEnd, keyExtractor = _a.keyExtractor, rest = __rest(_a, ["data", "onMomentumScrollEnd", "keyExtractor"]);
+    var data = _a.data, onMomentumScrollEnd = _a.onMomentumScrollEnd, keyExtractor = _a.keyExtractor, renderItem = _a.renderItem, rest = __rest(_a, ["data", "onMomentumScrollEnd", "keyExtractor", "renderItem"]);
     var _b = useState(0), indexActive = _b[0], setIndexActive = _b[1];
     var handleDragEnd = function (event) {
         var _a;
@@ -56,7 +56,11 @@ var Carousel = function (_a) {
         onMomentumScrollEnd === null || onMomentumScrollEnd === void 0 ? void 0 : onMomentumScrollEnd(event);
     };
     return (React.createElement(View, { style: styles.container },
-        React.createElement(FlatList, __assign({}, rest, { keyExtractor: keyExtractor, data: data, onMomentumScrollEnd: handleDragEnd })),
+        React.createElement(FlatList, __assign({}, rest, { keyExtractor: keyExtractor, data: data, 
+            // @ts-ignore
+            renderItem: function (info) {
+                return renderItem === null || renderItem === void 0 ? void 0 : renderItem(info, info.index === indexActive);
+            }, onMomentumScrollEnd: handleDragEnd })),
         React.createElement(View, { pointerEvents: "none", style: styles.pager }, data === null || data === void 0 ? void 0 : data.map(function (item, index) {
             return (React.createElement(View, { key: keyExtractor === null || keyExtractor === void 0 ? void 0 : keyExtractor(item, index), style: [styles.pagerItem, { backgroundColor: index === indexActive ? COLORS.PRIMARY : '#fff' }] }));
         }))));

@@ -4,10 +4,11 @@ import useSelector from "../utils/useSelector";
 import ModalInstaContent from './ModalInstaContent';
 import modalStore from './store/modalStore';
 var ModalInsta = function (_a) {
-    var instaSection = _a.instaSection, setting = _a.setting;
+    var _b;
+    var instaSection = _a.instaSection, setting = _a.setting, slotId = _a.slotId;
     var modalSelect = useSelector(modalStore);
-    return (React.createElement(Modal, { visible: modalSelect.isVisible, animationType: "slide", onShow: modalStore.handleOpenModalDone, onDismiss: modalStore.handleCloseModalDone, transparent: true },
+    return (React.createElement(Modal, { visible: !!((_b = modalSelect[slotId]) === null || _b === void 0 ? void 0 : _b.isVisible), animationType: "slide", transparent: true },
         React.createElement(StatusBar, { hidden: true }),
-        React.createElement(ModalInstaContent, { instaSection: instaSection, setting: setting })));
+        React.createElement(ModalInstaContent, { instaSection: instaSection, setting: setting, slotId: slotId })));
 };
 export default ModalInsta;

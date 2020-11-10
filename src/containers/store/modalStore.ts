@@ -1,56 +1,40 @@
 import createState from 'utils/createState';
 
 export interface ModalStore {
-  isVisible: boolean;
-  isVisibleDone: boolean;
-  idActive: string;
-  indexActive: number;
+  [slotId: string]: {
+    isVisible: boolean;
+    isVisibleDone: boolean;
+    idActive: string;
+    indexActive: number;
+  };
 }
 
-const initialState: ModalStore = {
-  isVisible: false,
-  isVisibleDone: false,
-  idActive: '',
-  indexActive: 0,
-};
+const initialState: ModalStore = {};
 
 const { getState, setState, subscribe } = createState(initialState);
 
-const handleOpenModal = (id: string, index: number) => {
-  setState({
-    isVisible: true,
-    idActive: id,
-    indexActive: index,
-  })('handleOpenModal');
-};
-
-const handleCloseModal = () => {
-  setState({
-    isVisible: false,
-    idActive: '',
-    indexActive: 0,
-  })('handleCloseModal');
-};
-
-const handleOpenModalDone = () => {
+const handleOpenModal = (id: string, slotId: string, index: number) => {
   setState(state => ({
     ...state,
-    isVisibleDone: true,
-  }))('handleOpenModalDone');
+    [slotId]: {
+      ...state[slotId],
+      isVisible: true,
+      idActive: id,
+      indexActive: index,
+    },
+  }))('handleOpenModal');
 };
 
-const handleCloseModalDone = () => {
+const handleCloseModal = (slotId: string) => {
   setState(state => ({
     ...state,
-    isVisibleDone: false,
-  }))('handleCloseModalDone');
-};
-
-const setIndexActive = (index: number) => {
-  setState(state => ({
-    ...state,
-    indexActive: index,
-  }))('setIndexActive');
+    [slotId]: {
+      ...state[slotId],
+      isVisible: false,
+      idActive: '',
+      indexActive: 0,
+    },
+  }))('handleCloseModal');
 };
 
 const modalStore = {
@@ -58,9 +42,6 @@ const modalStore = {
   subscribe,
   handleOpenModal,
   handleCloseModal,
-  handleOpenModalDone,
-  handleCloseModalDone,
-  setIndexActive,
 };
 
 export default modalStore;

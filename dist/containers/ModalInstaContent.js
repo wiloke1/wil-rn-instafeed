@@ -5,7 +5,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 import { TouchableOpacity, FlatList, StyleSheet, Platform, View, Image } from 'react-native';
 import InstaCard from "../components/InstaCard/InstaCard";
 import dayjs from 'dayjs';
@@ -50,27 +50,19 @@ var styles = StyleSheet.create({
     },
 });
 var ModalInstaContent = function (_a) {
-    var _b, _c;
-    var instaSection = _a.instaSection, setting = _a.setting;
+    var _b, _c, _d;
+    var instaSection = _a.instaSection, setting = _a.setting, slotId = _a.slotId;
     var listInstaRef = useRef(null);
     var modalSelect = useSelector(modalStore);
-    var itemActive = (_b = instaSection.posts) === null || _b === void 0 ? void 0 : _b[modalSelect.indexActive];
-    var data = __spreadArrays((!!itemActive ? [itemActive] : []), (((_c = instaSection.posts) === null || _c === void 0 ? void 0 : _c.filter(function (item) { return item.shortcode !== modalSelect.idActive; })) || []));
-    // useEffect(() => {
-    //   if (modalSelect.isVisibleDone) {
-    //     listInstaRef.current?.scrollToIndex({
-    //       animated: true,
-    //       index: modalSelect.indexActive,
-    //     });
-    //   }
-    // }, [modalSelect.indexActive, modalSelect.isVisibleDone]);
+    var itemActive = (_b = instaSection.posts) === null || _b === void 0 ? void 0 : _b[(_c = modalSelect[slotId]) === null || _c === void 0 ? void 0 : _c.indexActive];
+    var data = __spreadArrays((!!itemActive ? [itemActive] : []), (((_d = instaSection.posts) === null || _d === void 0 ? void 0 : _d.filter(function (item) { var _a; return item.shortcode !== ((_a = modalSelect[slotId]) === null || _a === void 0 ? void 0 : _a.idActive); })) || []));
     var handleCloseModal = function () {
-        modalStore.handleCloseModal();
+        modalStore.handleCloseModal(slotId);
     };
     var handleScrollEndDrag = function (event) {
         var contentOffset = event.nativeEvent.contentOffset;
-        if (contentOffset.y <= -100) {
-            modalStore.handleCloseModal();
+        if (contentOffset.y <= -80) {
+            modalStore.handleCloseModal(slotId);
         }
     };
     var renderInstaItem = function (_a) {
@@ -84,6 +76,6 @@ var ModalInstaContent = function (_a) {
     return (React.createElement(View, { style: styles.container },
         React.createElement(TouchableOpacity, { onPress: handleCloseModal, style: styles.close },
             React.createElement(Image, { source: { uri: iconClose }, style: styles.iconClose })),
-        React.createElement(FlatList, { removeClippedSubviews: true, contentContainerStyle: styles.flatlist, ref: listInstaRef, data: data, keyExtractor: function (item) { return item.shortcode; }, renderItem: renderInstaItem, onScrollEndDrag: handleScrollEndDrag })));
+        React.createElement(FlatList, { removeClippedSubviews: true, contentContainerStyle: styles.flatlist, ref: listInstaRef, data: data, keyExtractor: function (item) { return item.shortcode; }, renderItem: renderInstaItem, onScrollEndDrag: handleScrollEndDrag, nestedScrollEnabled: true })));
 };
-export default ModalInstaContent;
+export default memo(ModalInstaContent);

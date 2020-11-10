@@ -1,9 +1,9 @@
 import { GalleryItem } from 'api/Instagram';
-import React, { FC, useRef, memo } from 'react';
+import React, { FC, useRef, memo, useState, useEffect } from 'react';
 import { WebView } from 'react-native-webview';
-import { Image, StatusBar } from 'react-native';
-import RNSuspense from 'components/RNSuspense/RNSuspense';
+import { ActivityIndicator, Image, StatusBar, View } from 'react-native';
 import Carousel from 'components/Carousel/Carousel';
+import delay from 'utils/delay';
 import styles from './styles';
 
 export interface ImageCardFeaturedProps {
@@ -26,56 +26,79 @@ const getHtmlVideo = (videoUrl: string, imageSrc: string, width: number, height:
 
 const ImageCardFeatured: FC<ImageCardFeaturedProps> = ({ imageSrc, height, width, isVideo, videoUrl, gallery }) => {
   const videoRef = useRef<WebView | null>(null);
+  const [videosLoaded, setVideosLoaded] = useState<Record<string, boolean>>({});
 
-  const renderVideo = (videoUrl: string, imageSrc: string) => {
-    return (
-      <RNSuspense>
-        <WebView
-          ref={videoRef}
-          source={{ html: getHtmlVideo(videoUrl, imageSrc, width, height) }}
-          onLoadEnd={() => {
-            videoRef.current?.injectJavaScript(`
-            const videoEl = document.querySelector('video');
-            videoEl.addEventListener('pause', () => {
-              window.ReactNativeWebView.postMessage();
-            })
-          `);
-          }}
-          scrollEnabled={false}
-          style={{ width, height }}
-          onMessage={() => {
-            StatusBar.setHidden(true);
-          }}
-        />
-      </RNSuspense>
-    );
-  };
+  useEffect(() => {
+    return () => {
+      setVideosLoaded({});
+    };
+  }, []);
 
   const renderImage = (uri: string) => {
+    return <Image source={{ uri }} style={[styles.image, { width, height }]} />;
+  };
+
+  const renderVideo = (videoUrl: string, imageSrc: string, isActive = true) => {
     return (
-      <RNSuspense>
-        <Image source={{ uri }} style={[styles.image, { width, height }]} />
-      </RNSuspense>
+      <View style={styles.webviewWrap}>
+        {!videosLoaded[videoUrl] && (
+          <View style={styles.imageUnderlay}>
+            {renderImage(imageSrc)}
+            <View style={styles.videoLoading}>
+              <ActivityIndicator size="large" color="#fff" />
+            </View>
+          </View>
+        )}
+        {isActive ? (
+          <WebView
+            ref={videoRef}
+            source={{ html: getHtmlVideo(videoUrl, imageSrc, width, height) }}
+            onLoadEnd={() => {
+              videoRef.current?.injectJavaScript(`
+              const videoEl = document.querySelector('video');
+              videoEl.addEventListener('pause', () => {
+                window.ReactNativeWebView.postMessage();
+              })
+            `);
+              setVideosLoaded(videosLoaded => ({
+                ...videosLoaded,
+                [videoUrl]: true,
+              }));
+            }}
+            scrollEnabled={false}
+            style={{ width, height }}
+            onMessage={() => {
+              StatusBar.setHidden(true);
+            }}
+          />
+        ) : (
+          <View style={{ width, height }} />
+        )}
+      </View>
     );
   };
 
   if (!!gallery) {
     return (
-      <RNSuspense>
-        <Carousel
-          horizontal
-          pagingEnabled
-          removeClippedSubviews
-          showsHorizontalScrollIndicator={false}
-          data={gallery}
-          renderItem={({ item }) => {
-            if (item.video) {
-              return renderVideo(item.videoUrl, item.thumbnails[1].src);
-            }
-            return renderImage(item.thumbnails[1].src);
-          }}
-        />
-      </RNSuspense>
+      <Carousel
+        horizontal
+        pagingEnabled
+        removeClippedSubviews
+        showsHorizontalScrollIndicator={false}
+        nestedScrollEnabled
+        data={gallery}
+        keyExtractor={item => item.shortcode}
+        renderItem={({ item }, isActive) => {
+          if (item.video) {
+            return renderVideo(item.videoUrl, item.thumbnails[1].src, isActive);
+          }
+          return renderImage(item.thumbnails[1].src);
+        }}
+        onScrollEndDrag={async () => {
+          await delay(200);
+          setVideosLoaded({});
+        }}
+      />
     );
   }
   if (isVideo) {

@@ -53,9 +53,7 @@ const appFailure = (endpoint: string) => {
 
 const getInstagram = async (endpoint: string) => {
   try {
-    const res = await fetch(
-      `https://instafeedhub.com/wp-json/wiloke/v1/instagram/me/insta-user/${endpoint}/media`,
-    );
+    const res = await fetch(`https://instafeedhub.com/wp-json/wiloke/v1/instagram/me/insta-user/${endpoint}/media`);
     const json: Instagram = await res.json();
     console.log(json);
     const { posts, profile } = json;

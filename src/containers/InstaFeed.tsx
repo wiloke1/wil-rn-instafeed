@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
-import { ActivityIndicator, TouchableOpacity, View, Image, StyleSheet, Linking } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, View, Image, StyleSheet, Linking, FlatList } from 'react-native';
 import { InstaItem } from 'api/Instagram';
 import Grid from 'components/Grid/Grid';
 import { Settings } from 'types';
-import { getColumn, getGap, getInstaData, getRow } from 'utils/general';
+import { getColumn, getGap, getInstaGridData, getRow, splitCarouselData } from 'utils/general';
 import useSelector from 'utils/useSelector';
 import Button from 'components/Button/Button';
 import { __wilInstagramShopify__ } from './fakeSettings';
@@ -17,9 +17,13 @@ export interface InstaFeedProps {
    */
   settings?: Settings;
   /**
-   * Instagram username
+   * chỗ đặt instagram
    */
-  username: string;
+  slotId: string;
+  /**
+   * container width
+   */
+  containerWidth: number;
 }
 
 const endpoints = new Set<string>();
@@ -40,22 +44,22 @@ const styles = StyleSheet.create({
   loadmore: { alignItems: 'center', marginTop: 15 },
 });
 
-const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, username }) => {
-  const [setting] = settings.filter(setting => setting.insta_username === username);
+const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, slotId, containerWidth }) => {
+  const [setting] = settings.filter(setting => setting.slot_data_id === slotId);
   const row = getRow(setting);
   const [rowState, setRowState] = useState(row);
   const appSelect = useSelector(appStore);
-  const instaSection = appSelect[username];
+  const instaSection = !!setting?.insta_username ? appSelect[setting.insta_username] : {};
   const column = getColumn(setting);
   const gap = getGap(setting);
 
   const getInstaFeed = () => {
-    settings.forEach(async setting => {
+    settings.forEach(setting => {
       if (setting.insta_username) {
         const cond = !endpoints.has(setting.insta_username);
         endpoints.add(setting.insta_username);
         if (cond) {
-          await appStore.getInstagramRequest(setting.insta_username);
+          appStore.getInstagramRequest(setting.insta_username);
         }
       }
     });
@@ -71,7 +75,7 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, use
         Linking.openURL(link);
         break;
       case 'open_modal':
-        modalStore.handleOpenModal(id, index);
+        modalStore.handleOpenModal(id, slotId, index);
         break;
       case 'none':
       default:
@@ -92,7 +96,7 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, use
     );
   };
 
-  if (!instaSection || !!instaSection.message) {
+  if (!instaSection || !!instaSection.message || !setting) {
     return null;
   }
 
@@ -104,26 +108,66 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, use
     );
   }
 
+  const renderContent = () => {
+    switch (setting.template) {
+      case 'grid':
+      case 'grid-brick':
+        return (
+          <>
+            <Grid
+              gap={gap}
+              column={column}
+              data={getInstaGridData(instaSection, rowState, column)}
+              keyExtractor={item => item.shortcode}
+              renderItem={renderInstaItem}
+            />
+            {rowState * column < (instaSection.posts?.length || Infinity) && (
+              <View style={styles.loadmore}>
+                <Button borderRadius="round" onPress={handleLoadMore} backgroundColor={setting.link_color} color="#fff">
+                  {setting.btn_action_loadmore.text}
+                </Button>
+              </View>
+            )}
+          </>
+        );
+      case 'slider':
+        return (
+          <View style={{ width: containerWidth, overflow: 'hidden' }}>
+            <FlatList
+              horizontal
+              removeClippedSubviews
+              showsHorizontalScrollIndicator={false}
+              data={splitCarouselData(instaSection.posts || [], column, rowState)}
+              keyExtractor={item => JSON.stringify(item)}
+              renderItem={({ item }) => {
+                return (
+                  <View style={{ width: containerWidth - 10, paddingHorizontal: gap }}>
+                    <Grid
+                      gap={gap}
+                      column={column}
+                      data={item}
+                      keyExtractor={item => item.shortcode}
+                      renderItem={item => {
+                        return renderInstaItem(item, item.index);
+                      }}
+                    />
+                  </View>
+                );
+              }}
+              style={{ width: containerWidth + gap, marginLeft: -gap / 2 }}
+            />
+          </View>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <View>
-      <View>
-        <Grid
-          gap={gap}
-          column={column}
-          data={getInstaData(instaSection, rowState, column)}
-          keyExtractor={item => item.shortcode}
-          renderItem={renderInstaItem}
-        />
-      </View>
-      {rowState * column < (instaSection.posts?.length || Infinity) && (
-        <View style={styles.loadmore}>
-          <Button borderRadius="round" onPress={handleLoadMore} backgroundColor={setting.link_color} color="#fff">
-            {setting.btn_action_loadmore.text}
-          </Button>
-        </View>
-      )}
-      <ModalInsta instaSection={instaSection} setting={setting} />
-    </View>
+    <>
+      {renderContent()}
+      <ModalInsta instaSection={instaSection} setting={setting} slotId={slotId} />
+    </>
   );
 };
 

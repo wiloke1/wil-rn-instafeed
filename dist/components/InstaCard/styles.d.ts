@@ -93,5 +93,25 @@ declare const styles: {
     actionsLeftText: {
         fontSize: number;
     };
+    webviewWrap: {
+        position: "relative";
+    };
+    imageUnderlay: {
+        position: "absolute";
+        top: number;
+        left: number;
+        zIndex: number;
+    };
+    videoLoading: {
+        zIndex: number;
+        justifyContent: "center";
+        alignItems: "center";
+        backgroundColor: string;
+        position: "absolute";
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    };
 };
 export default styles;

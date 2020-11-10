@@ -9,10 +9,7 @@ interface Config {
 export type UnSubscribe = () => void;
 export interface CreateStateInterface<S = any> {
   getState(): S;
-  setState<K extends keyof S>(
-    state: S | Pick<S, K> | ((prevState: Readonly<S>) => S | Pick<S, K>),
-    actionName: string,
-  ): void;
+  setState<K extends keyof S>(state: S | Pick<S, K> | ((prevState: Readonly<S>) => S | Pick<S, K>), actionName: string): void;
   subscribe(listener: Listener<S>): UnSubscribe;
   shouldUpdate(compareFunc: CompareFunc<S>): void;
 }
@@ -63,9 +60,7 @@ export class CreateState<S extends any = any> implements CreateStateInterface<S>
   public getState = () => {
     return this.state;
   };
-  public setState = <K extends keyof S>(
-    state: S | Pick<S, K> | ((prevState: Readonly<S>) => S | Pick<S, K>),
-  ) => {
+  public setState = <K extends keyof S>(state: S | Pick<S, K> | ((prevState: Readonly<S>) => S | Pick<S, K>)) => {
     const { useLocalStorage, stateName } = this.config;
     this.prevState = this.state;
     if (typeof state === 'function') {

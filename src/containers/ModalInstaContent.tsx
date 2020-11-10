@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, memo, useRef } from 'react';
 import { TouchableOpacity, FlatList, StyleSheet, Platform, View, NativeSyntheticEvent, NativeScrollEvent, Image } from 'react-native';
 import { InstaItem } from 'api/Instagram';
 import { Setting } from 'types';
@@ -16,6 +16,7 @@ import { AppStore } from './store/appStore';
 export interface ModalInstaContentProps {
   instaSection: AppStore[0];
   setting: Setting;
+  slotId: string;
 }
 
 dayjs.extend(utc);
@@ -53,32 +54,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const ModalInstaContent: FC<ModalInstaContentProps> = ({ instaSection, setting }) => {
+const ModalInstaContent: FC<ModalInstaContentProps> = ({ instaSection, setting, slotId }) => {
   const listInstaRef = useRef<FlatList<InstaItem> | null>(null);
   const modalSelect = useSelector(modalStore);
-  const itemActive = instaSection.posts?.[modalSelect.indexActive];
+  const itemActive = instaSection.posts?.[modalSelect[slotId]?.indexActive];
   const data: InstaItem[] = [
     ...(!!itemActive ? [itemActive] : []),
-    ...(instaSection.posts?.filter(item => item.shortcode !== modalSelect.idActive) || []),
+    ...(instaSection.posts?.filter(item => item.shortcode !== modalSelect[slotId]?.idActive) || []),
   ];
 
-  // useEffect(() => {
-  //   if (modalSelect.isVisibleDone) {
-  //     listInstaRef.current?.scrollToIndex({
-  //       animated: true,
-  //       index: modalSelect.indexActive,
-  //     });
-  //   }
-  // }, [modalSelect.indexActive, modalSelect.isVisibleDone]);
-
   const handleCloseModal = () => {
-    modalStore.handleCloseModal();
+    modalStore.handleCloseModal(slotId);
   };
 
   const handleScrollEndDrag = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset } = event.nativeEvent;
-    if (contentOffset.y <= -100) {
-      modalStore.handleCloseModal();
+    if (contentOffset.y <= -80) {
+      modalStore.handleCloseModal(slotId);
     }
   };
 
@@ -130,9 +122,10 @@ const ModalInstaContent: FC<ModalInstaContentProps> = ({ instaSection, setting }
         keyExtractor={item => item.shortcode}
         renderItem={renderInstaItem}
         onScrollEndDrag={handleScrollEndDrag}
+        nestedScrollEnabled
       />
     </View>
   );
 };
 
-export default ModalInstaContent;
+export default memo(ModalInstaContent);

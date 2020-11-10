@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { FlatList, FlatListProps, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from 'react-native';
+import React, { ReactNode, useState } from 'react';
+import { FlatList, FlatListProps, ListRenderItemInfo, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from 'react-native';
 import { COLORS } from 'utils/constants';
 
-export interface CarouselProps<ItemT extends any> extends FlatListProps<ItemT> {}
+export interface CarouselProps<ItemT extends any> extends Omit<FlatListProps<ItemT>, 'renderItem'> {
+  renderItem?: (info: ListRenderItemInfo<ItemT>, isActive: boolean) => ReactNode;
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -19,14 +21,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pagerItem: {
-    width: 8,
-    height: 8,
-    borderRadius: 8,
+    width: 6,
+    height: 6,
+    borderRadius: 6,
     marginHorizontal: 3,
   },
 });
 
-const Carousel = <ItemT extends any>({ data, onMomentumScrollEnd, keyExtractor, ...rest }: CarouselProps<ItemT>) => {
+const Carousel = <ItemT extends any>({ data, onMomentumScrollEnd, keyExtractor, renderItem, ...rest }: CarouselProps<ItemT>) => {
   const [indexActive, setIndexActive] = useState(0);
 
   const handleDragEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -39,7 +41,16 @@ const Carousel = <ItemT extends any>({ data, onMomentumScrollEnd, keyExtractor, 
 
   return (
     <View style={styles.container}>
-      <FlatList {...rest} keyExtractor={keyExtractor} data={data} onMomentumScrollEnd={handleDragEnd} />
+      <FlatList
+        {...rest}
+        keyExtractor={keyExtractor}
+        data={data}
+        // @ts-ignore
+        renderItem={info => {
+          return renderItem?.(info, info.index === indexActive);
+        }}
+        onMomentumScrollEnd={handleDragEnd}
+      />
       <View pointerEvents="none" style={styles.pager}>
         {data?.map((item, index) => {
           return (
