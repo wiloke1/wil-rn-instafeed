@@ -80,7 +80,7 @@ var InstaFeed = function (_a) {
         switch (setting.template) {
             case 'grid':
             case 'grid-brick':
-                return (React.createElement(React.Fragment, null,
+                return (React.createElement(View, { style: { width: containerWidth } },
                     React.createElement(Grid, { gap: gap, column: column, data: getInstaGridData(instaSection, rowState, column), keyExtractor: function (item) { return item.shortcode; }, renderItem: renderInstaItem }),
                     rowState * column < (((_a = instaSection.posts) === null || _a === void 0 ? void 0 : _a.length) || Infinity) && (React.createElement(View, { style: styles.loadmore },
                         React.createElement(Button, { borderRadius: "round", onPress: handleLoadMore, backgroundColor: setting.link_color, color: "#fff" }, setting.btn_action_loadmore.text)))));
@@ -92,7 +92,7 @@ var InstaFeed = function (_a) {
                                 React.createElement(Grid, { gap: gap, column: column, data: item, keyExtractor: function (item) { return item.shortcode; }, renderItem: function (item) {
                                         return renderInstaItem(item, item.index);
                                     } })));
-                        }, style: { width: containerWidth + gap, marginLeft: -gap / 2 } })));
+                        }, style: { width: containerWidth + gap, marginLeft: -gap } })));
             default:
                 return null;
         }

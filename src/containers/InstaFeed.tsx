@@ -113,7 +113,7 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, slo
       case 'grid':
       case 'grid-brick':
         return (
-          <>
+          <View style={{ width: containerWidth }}>
             <Grid
               gap={gap}
               column={column}
@@ -128,7 +128,7 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, slo
                 </Button>
               </View>
             )}
-          </>
+          </View>
         );
       case 'slider':
         return (
@@ -154,7 +154,7 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, slo
                   </View>
                 );
               }}
-              style={{ width: containerWidth + gap, marginLeft: -gap / 2 }}
+              style={{ width: containerWidth + gap, marginLeft: -gap }}
             />
           </View>
         );

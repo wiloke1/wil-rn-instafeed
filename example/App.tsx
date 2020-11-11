@@ -1,16 +1,16 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View, Dimensions } from 'react-native';
-import InstaFeed from 'wil-rn-instafeed';
+import InstaFeed, { Settings } from 'wil-rn-instafeed';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-const settings = [
+const settings: Settings = [
   {
     id: '2134234',
     slot_data_id: '911',
     modal_view_mode: 'scroll',
     click_item_action: 'open_modal',
-    insta_username: 'jakeelko',
+    insta_username: 'pangea',
     template: 'grid',
     post_template: 'style1',
     number_of_columns_desktop: 4,
@@ -155,8 +155,12 @@ export default function App() {
   return (
     <ScrollView style={styles.container}>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <InstaFeed slotId="911" containerWidth={SCREEN_WIDTH} settings={settings as any} />
-        <InstaFeed slotId="9112" containerWidth={SCREEN_WIDTH} settings={settings as any} />
+        <View style={{marginTop: 50}}>
+          <InstaFeed slotId="911" containerWidth={SCREEN_WIDTH - 20} settings={settings} />
+        </View>
+        <View style={{marginTop: 50}}>
+          <InstaFeed slotId="9112" containerWidth={SCREEN_WIDTH - 20} settings={settings} />
+        </View>
       </View>
     </ScrollView>
   );
