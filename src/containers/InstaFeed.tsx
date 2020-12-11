@@ -141,7 +141,7 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, slo
               keyExtractor={item => JSON.stringify(item)}
               renderItem={({ item }) => {
                 return (
-                  <View style={{ width: containerWidth - 10, paddingHorizontal: gap }}>
+                  <View style={{ width: containerWidth - 10, paddingHorizontal: gap / 2 }}>
                     <Grid
                       gap={gap}
                       column={column}

@@ -21,7 +21,7 @@
     "prepare": "yarn run build",
     "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build",
-    "eslint": "eslint src --ext .ts,.tsx --fix"
+    "eslint": "eslint src --ext .ts,.tsx"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -64,6 +64,7 @@
     "babel-runtime": "^6.26.0",
     "chokidar": "^3.4.3",
     "cross-env": "^6.0.3",
+    "dayjs": "^1.9.5",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.7.0",
@@ -78,6 +79,7 @@
     "husky": "^3.1.0",
     "lint-staged": "8.1.7",
     "prettier": "^1.19.1",
+    "react-native-webview": "^10.0.0",
     "react-scripts-ts": "^2.16.0",
     "rollup": "^2.33.1",
     "rollup-plugin-babel": "^3.0.7",
@@ -89,11 +91,13 @@
     "rollup-plugin-typescript2": "^0.17.0",
     "rollup-plugin-url": "^1.4.0",
     "ttypescript": "^1.5.12",
-    "typescript": "^4.0.5",
+    "typescript": "3.9.7",
     "typescript-transform-paths": "^2.0.2",
-    "unimodules-permissions-interface": "^5.3.0",
-    "dayjs": "^1.9.5",
-    "react-native-webview": "^10.0.0"
+    "unimodules-permissions-interface": "^5.3.0"
+  },
+  "resolutions": {
+    "**/@typescript-eslint/eslint-plugin": "^4.1.1",
+    "**/@typescript-eslint/parser": "^4.1.1"
   },
   "files": [
     "dist"

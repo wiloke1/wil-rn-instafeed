@@ -110,7 +110,7 @@ var loadInstagramFromCache = function (endpoint) {
                 var _a;
                 return (__assign(__assign({}, state), (_a = {}, _a[endpoint] = __assign(__assign({}, state[endpoint]), { isLoading: false }), _a)));
             })('getInstagram/success');
-            resolve();
+            resolve(undefined);
         });
     });
 };

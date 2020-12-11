@@ -68,7 +68,7 @@ const getInstagram = async (endpoint: string) => {
 };
 
 const loadInstagramFromCache = (endpoint: string) => {
-  return new Promise((resolve: () => void) => {
+  return new Promise(resolve => {
     queueMicrotask(() => {
       setState(state => ({
         ...state,
@@ -77,7 +77,7 @@ const loadInstagramFromCache = (endpoint: string) => {
           isLoading: false,
         },
       }))('getInstagram/success');
-      resolve();
+      resolve(undefined);
     });
   });
 };

@@ -1,4 +1,4 @@
-import type * as CSS from 'csstype';
+import * as CSS from 'csstype';
 import { EditItemValueChange } from './resType/ListFieldsEdit';
 export declare type CSSProperties = CSS.Properties<string | number>;
 export interface InstaCardProps {

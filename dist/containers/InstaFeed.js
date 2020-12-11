@@ -88,7 +88,7 @@ var InstaFeed = function (_a) {
                 return (React.createElement(View, { style: { width: containerWidth, overflow: 'hidden' } },
                     React.createElement(FlatList, { horizontal: true, removeClippedSubviews: true, showsHorizontalScrollIndicator: false, data: splitCarouselData(instaSection.posts || [], column, rowState), keyExtractor: function (item) { return JSON.stringify(item); }, renderItem: function (_a) {
                             var item = _a.item;
-                            return (React.createElement(View, { style: { width: containerWidth - 10, paddingHorizontal: gap } },
+                            return (React.createElement(View, { style: { width: containerWidth - 10, paddingHorizontal: gap / 2 } },
                                 React.createElement(Grid, { gap: gap, column: column, data: item, keyExtractor: function (item) { return item.shortcode; }, renderItem: function (item) {
                                         return renderInstaItem(item, item.index);
                                     } })));

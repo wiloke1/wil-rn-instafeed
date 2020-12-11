@@ -7,15 +7,12 @@ interface MapStateDefault {
 }
 
 function getStates<T extends Record<string, MapStateDefault>>(mapStateToProps: T) {
-  return Object.keys(mapStateToProps).reduce<Record<string, CreateStateInterface['getState']>>(
-    (obj, key) => {
-      return {
-        ...obj,
-        [key]: mapStateToProps[key].getState(),
-      };
-    },
-    {},
-  );
+  return Object.keys(mapStateToProps).reduce<Record<string, CreateStateInterface['getState']>>((obj, key) => {
+    return {
+      ...obj,
+      [key]: mapStateToProps[key].getState(),
+    };
+  }, {});
 }
 
 function withStore<T extends Record<string, MapStateDefault>>(mapStateToProps: T) {
