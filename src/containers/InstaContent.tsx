@@ -13,10 +13,12 @@ import { iconClose } from 'utils/icons';
 import modalStore from './store/modalStore';
 import { AppStore } from './store/appStore';
 
-export interface ModalInstaContentProps {
+export interface InstaContentProps {
   instaSection: AppStore[0];
   setting: Setting;
   slotId: string;
+  useNavigation?: boolean;
+  navigation?: any;
 }
 
 dayjs.extend(utc);
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ModalInstaContent: FC<ModalInstaContentProps> = ({ instaSection, setting, slotId }) => {
+const InstaContent: FC<InstaContentProps> = ({ instaSection, setting, slotId, useNavigation = false, navigation }) => {
   const listInstaRef = useRef<FlatList<InstaItem> | null>(null);
   const modalSelect = useSelector(modalStore);
   const itemActive = instaSection.posts?.[modalSelect[slotId]?.indexActive];
@@ -64,12 +66,16 @@ const ModalInstaContent: FC<ModalInstaContentProps> = ({ instaSection, setting, 
   ];
 
   const handleCloseModal = () => {
-    modalStore.handleCloseModal(slotId);
+    if (useNavigation) {
+      navigation.goBack();
+    } else {
+      modalStore.handleCloseModal(slotId);
+    }
   };
 
   const handleScrollEndDrag = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset } = event.nativeEvent;
-    if (contentOffset.y <= -80) {
+    if (contentOffset.y <= -80 && !useNavigation) {
       modalStore.handleCloseModal(slotId);
     }
   };
@@ -128,4 +134,4 @@ const ModalInstaContent: FC<ModalInstaContentProps> = ({ instaSection, setting, 
   );
 };
 
-export default memo(ModalInstaContent);
+export default memo(InstaContent);

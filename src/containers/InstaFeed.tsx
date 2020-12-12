@@ -24,6 +24,9 @@ export interface InstaFeedProps {
    * container width
    */
   containerWidth: number;
+  useNavigation?: boolean;
+  navigation?: any;
+  screenName?: string;
 }
 
 const endpoints = new Set<string>();
@@ -44,7 +47,14 @@ const styles = StyleSheet.create({
   loadmore: { alignItems: 'center', marginTop: 15 },
 });
 
-const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, slotId, containerWidth }) => {
+const InstaFeed: FC<InstaFeedProps> = ({
+  settings = __wilInstagramShopify__,
+  slotId,
+  containerWidth,
+  useNavigation = false,
+  navigation,
+  screenName,
+}) => {
   const [setting] = settings.filter(setting => setting.slot_data_id === slotId);
   const row = getRow(setting);
   const [rowState, setRowState] = useState(row);
@@ -70,6 +80,14 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, slo
   };
 
   const handleOpenModal = (id: string, link: string, index: number) => () => {
+    if (useNavigation) {
+      navigation.navigate(screenName, {
+        instaSection,
+        setting,
+        slotId,
+      });
+      return;
+    }
     switch (setting.click_item_action) {
       case 'navigate_instagram':
         Linking.openURL(link);
@@ -166,7 +184,7 @@ const InstaFeed: FC<InstaFeedProps> = ({ settings = __wilInstagramShopify__, slo
   return (
     <>
       {renderContent()}
-      <ModalInsta instaSection={instaSection} setting={setting} slotId={slotId} />
+      {!useNavigation && <ModalInsta instaSection={instaSection} setting={setting} slotId={slotId} />}
     </>
   );
 };

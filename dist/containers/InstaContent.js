@@ -49,19 +49,24 @@ var styles = StyleSheet.create({
         height: 20,
     },
 });
-var ModalInstaContent = function (_a) {
+var InstaContent = function (_a) {
     var _b, _c, _d;
-    var instaSection = _a.instaSection, setting = _a.setting, slotId = _a.slotId;
+    var instaSection = _a.instaSection, setting = _a.setting, slotId = _a.slotId, _e = _a.useNavigation, useNavigation = _e === void 0 ? false : _e, navigation = _a.navigation;
     var listInstaRef = useRef(null);
     var modalSelect = useSelector(modalStore);
     var itemActive = (_b = instaSection.posts) === null || _b === void 0 ? void 0 : _b[(_c = modalSelect[slotId]) === null || _c === void 0 ? void 0 : _c.indexActive];
     var data = __spreadArrays((!!itemActive ? [itemActive] : []), (((_d = instaSection.posts) === null || _d === void 0 ? void 0 : _d.filter(function (item) { var _a; return item.shortcode !== ((_a = modalSelect[slotId]) === null || _a === void 0 ? void 0 : _a.idActive); })) || []));
     var handleCloseModal = function () {
-        modalStore.handleCloseModal(slotId);
+        if (useNavigation) {
+            navigation.goBack();
+        }
+        else {
+            modalStore.handleCloseModal(slotId);
+        }
     };
     var handleScrollEndDrag = function (event) {
         var contentOffset = event.nativeEvent.contentOffset;
-        if (contentOffset.y <= -80) {
+        if (contentOffset.y <= -80 && !useNavigation) {
             modalStore.handleCloseModal(slotId);
         }
     };
@@ -78,4 +83,4 @@ var ModalInstaContent = function (_a) {
             React.createElement(Image, { source: { uri: iconClose }, style: styles.iconClose })),
         React.createElement(FlatList, { removeClippedSubviews: true, contentContainerStyle: styles.flatlist, ref: listInstaRef, data: data, keyExtractor: function (item) { return item.shortcode; }, renderItem: renderInstaItem, onScrollEndDrag: handleScrollEndDrag, nestedScrollEnabled: true })));
 };
-export default memo(ModalInstaContent);
+export default memo(InstaContent);

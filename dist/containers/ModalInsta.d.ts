@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { ModalInstaContentProps } from './ModalInstaContent';
-export interface ModalInstaProps extends ModalInstaContentProps {
+import { InstaContentProps } from './InstaContent';
+export interface ModalInstaProps extends InstaContentProps {
     slotId: string;
 }
 declare const ModalInsta: FC<ModalInstaProps>;

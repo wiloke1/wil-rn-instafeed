@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { Modal, StatusBar } from 'react-native';
 import useSelector from 'utils/useSelector';
-import ModalInstaContent, { ModalInstaContentProps } from './ModalInstaContent';
+import InstaContent, { InstaContentProps } from './InstaContent';
 import modalStore from './store/modalStore';
 
-export interface ModalInstaProps extends ModalInstaContentProps {
+export interface ModalInstaProps extends InstaContentProps {
   slotId: string;
 }
 
@@ -14,7 +14,7 @@ const ModalInsta: FC<ModalInstaProps> = ({ instaSection, setting, slotId }) => {
   return (
     <Modal visible={!!modalSelect[slotId]?.isVisible} animationType="slide" transparent>
       <StatusBar hidden />
-      <ModalInstaContent instaSection={instaSection} setting={setting} slotId={slotId} />
+      <InstaContent instaSection={instaSection} setting={setting} slotId={slotId} />
     </Modal>
   );
 };

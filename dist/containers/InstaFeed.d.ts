@@ -13,6 +13,9 @@ export interface InstaFeedProps {
      * container width
      */
     containerWidth: number;
+    useNavigation?: boolean;
+    navigation?: any;
+    screenName?: string;
 }
 declare const InstaFeed: FC<InstaFeedProps>;
 export default InstaFeed;

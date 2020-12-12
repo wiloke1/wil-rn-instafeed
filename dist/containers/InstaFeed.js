@@ -25,10 +25,10 @@ var styles = StyleSheet.create({
     loadmore: { alignItems: 'center', marginTop: 15 },
 });
 var InstaFeed = function (_a) {
-    var _b = _a.settings, settings = _b === void 0 ? __wilInstagramShopify__ : _b, slotId = _a.slotId, containerWidth = _a.containerWidth;
+    var _b = _a.settings, settings = _b === void 0 ? __wilInstagramShopify__ : _b, slotId = _a.slotId, containerWidth = _a.containerWidth, _c = _a.useNavigation, useNavigation = _c === void 0 ? false : _c, navigation = _a.navigation, screenName = _a.screenName;
     var setting = settings.filter(function (setting) { return setting.slot_data_id === slotId; })[0];
     var row = getRow(setting);
-    var _c = useState(row), rowState = _c[0], setRowState = _c[1];
+    var _d = useState(row), rowState = _d[0], setRowState = _d[1];
     var appSelect = useSelector(appStore);
     var instaSection = !!(setting === null || setting === void 0 ? void 0 : setting.insta_username) ? appSelect[setting.insta_username] : {};
     var column = getColumn(setting);
@@ -48,6 +48,14 @@ var InstaFeed = function (_a) {
         setRowState(function (rowState) { return rowState + column * 3; });
     };
     var handleOpenModal = function (id, link, index) { return function () {
+        if (useNavigation) {
+            navigation.navigate(screenName, {
+                instaSection: instaSection,
+                setting: setting,
+                slotId: slotId,
+            });
+            return;
+        }
         switch (setting.click_item_action) {
             case 'navigate_instagram':
                 Linking.openURL(link);
@@ -99,6 +107,6 @@ var InstaFeed = function (_a) {
     };
     return (React.createElement(React.Fragment, null,
         renderContent(),
-        React.createElement(ModalInsta, { instaSection: instaSection, setting: setting, slotId: slotId })));
+        !useNavigation && React.createElement(ModalInsta, { instaSection: instaSection, setting: setting, slotId: slotId })));
 };
 export default InstaFeed;

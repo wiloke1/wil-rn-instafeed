@@ -25,7 +25,7 @@ yarn add wil-rn-instafeed
 ```js
 import React from 'react';
 import { StyleSheet, ScrollView, View, Dimensions } from 'react-native';
-import InstaFeed, { Settings } from 'wil-rn-instafeed';
+import { InstaFeed, Settings } from 'wil-rn-instafeed';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -98,8 +98,6 @@ const settings: Settings = [
     gap_mobile: 10,
     link_color: '#0095f6',
     link_color_popup: '#0095f6',
-    position: ['top'],
-    display_on_pages: ['template-index'],
     btn_close_color_popup: '#000',
   },
   {
@@ -170,8 +168,6 @@ const settings: Settings = [
     gap_mobile: 10,
     link_color: '#0095f6',
     link_color_popup: '#0095f6',
-    position: ['top'],
-    display_on_pages: ['template-index'],
     btn_close_color_popup: '#000',
   }
 ]
@@ -195,6 +191,9 @@ export default function App() {
 | slotId ( required )   | `string`                     | -       | slot_data_id in settings  |
 | settings ( optional )             | `Settings[]`                     | `[]`       | array setting |
 | containerWidth ( required )    | `number`      | -       | width of instafeed |
+| useNavigation ( optional )    | `boolean`      | -       | react navigation |
+| navigation ( optional )    | `React Navigation`      | -       | react navigation |
+| screenName ( optional )    | `string`      | -       | react navigation |
 
 ## License
 
