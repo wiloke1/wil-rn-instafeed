@@ -1,7 +1,6 @@
-export default function delay(ms) {
-    if (ms === void 0) { ms = 0; }
-    return new Promise(function (resolve) {
-        var timeId = setTimeout(function () {
+export default function delay(ms = 0) {
+    return new Promise(resolve => {
+        const timeId = setTimeout(() => {
             resolve(undefined);
             clearTimeout(timeId);
         }, ms);

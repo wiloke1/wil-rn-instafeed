@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View, Dimensions } from 'react-native';
-import InstaFeed, { Settings } from 'wil-rn-instafeed';
+import  { InstaFeed, Settings } from 'wil-rn-instafeed';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 

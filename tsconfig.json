@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -13,7 +9,7 @@
     "module": "esnext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "sourceMap": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -21,7 +17,7 @@
     "baseUrl": "./src",
     "outDir": "dist",
     "declaration": true,
-    "plugins": [{ "transform": "@zerollup/ts-transform-paths", "afterDeclarations": true, "after": true }],
+    "plugins": [{ "transform": "@zerollup/ts-transform-paths", "afterDeclarations": true, "after": true }]
   },
   "include": ["src"],
   "exclude": ["node_modules", "build", "dist", "example", "rollup.config.js"]

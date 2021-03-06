@@ -1,17 +1,6 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 import { StyleSheet } from 'react-native';
 import { COLORS } from "../../utils/constants";
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         marginBottom: 10,
         backgroundColor: '#fff',
@@ -114,6 +103,12 @@ var styles = StyleSheet.create({
         left: 0,
         zIndex: 9,
     },
-    videoLoading: __assign(__assign({}, StyleSheet.absoluteFillObject), { zIndex: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }),
+    videoLoading: {
+        ...StyleSheet.absoluteFillObject,
+        zIndex: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
 });
 export default styles;
