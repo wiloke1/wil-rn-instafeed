@@ -5,9 +5,9 @@
   "author": "wiloke1",
   "license": "MIT",
   "repository": "wiloke1/wil-rn-instafeed",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "jsnext:main": "dist/index.js",
+  "main": "dist/index.jsx",
+  "module": "dist/index.jsx",
+  "jsnext:main": "dist/index.jsx",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
