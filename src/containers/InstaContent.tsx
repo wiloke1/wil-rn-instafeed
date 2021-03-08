@@ -101,10 +101,14 @@ const InstaContent: FC<InstaContentProps> = ({ instaSection, setting, slotId, us
         shareButtonMessenger={setting.btn_action_share_messenger.status === 'enable' ? setting.btn_action_share_messenger.text : ''}
         shareButtonCopylink={setting.btn_action_copylink.status === 'enable' ? setting.btn_action_copylink.text : ''}
         shareButtonEmail={setting.btn_action_share_email.status === 'enable' ? setting.btn_action_share_email.text : ''}
-        date={dayjs
-          .utc(item.date.date)
-          .tz(item.date.timezone)
-          .fromNow()}
+        date={
+          Platform.OS === 'android'
+            ? dayjs(item.date.date).fromNow()
+            : dayjs
+                .utc(item.date.date)
+                .tz(item.date.timezone)
+                .fromNow()
+        }
         imageWidth={item.width}
         imageHeight={item.height}
         urlShare={item.link}

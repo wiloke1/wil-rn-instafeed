@@ -25,7 +25,8 @@ const appLoading = (endpoint: string) => {
       ...state[endpoint],
       isLoading: true,
     },
-  }))('getInstagram/request');
+  }));
+  // ('getInstagram/request');
 };
 
 const appSuccess = ({ endpoint, posts, profile }: Instagram & { endpoint: string }) => {
@@ -37,7 +38,8 @@ const appSuccess = ({ endpoint, posts, profile }: Instagram & { endpoint: string
       profile,
       prevTimestamp: Date.now(),
     },
-  }))('getInstagram/success');
+  }));
+  // ('getInstagram/success');
 };
 
 const appFailure = (endpoint: string) => {
@@ -48,7 +50,8 @@ const appFailure = (endpoint: string) => {
       isLoading: false,
       message: 'error',
     },
-  }))('getInstagram/failure');
+  }));
+  // ('getInstagram/failure');
 };
 
 const getInstagram = async (endpoint: string) => {
@@ -76,7 +79,8 @@ const loadInstagramFromCache = (endpoint: string) => {
           ...state[endpoint],
           isLoading: false,
         },
-      }))('getInstagram/success');
+      }));
+      // ('getInstagram/success');
       resolve(undefined);
     });
   });
