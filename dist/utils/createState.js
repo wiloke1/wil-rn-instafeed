@@ -1,63 +1,66 @@
 import stateLog from './stateLog';
-const defaultConfig = {
+var defaultConfig = {
     useLocalStorage: false,
     stateName: '@state',
 };
-export class CreateState {
-    constructor(initialState, config = defaultConfig) {
-        this.updateStateFromLocalStorage = () => {
-            const { useLocalStorage, stateName } = this.config;
-            const state = !!window.localStorage ? window.localStorage.getItem(stateName) : this.state;
+var CreateState = /** @class */ (function () {
+    function CreateState(initialState, config) {
+        var _this = this;
+        if (config === void 0) { config = defaultConfig; }
+        this.updateStateFromLocalStorage = function () {
+            var _a = _this.config, useLocalStorage = _a.useLocalStorage, stateName = _a.stateName;
+            var state = !!window.localStorage ? window.localStorage.getItem(stateName) : _this.state;
             if (useLocalStorage && !!state) {
                 try {
-                    this.state = typeof state === 'string' ? JSON.parse(state) : state;
+                    _this.state = typeof state === 'string' ? JSON.parse(state) : state;
                 }
-                catch {
-                    this.state = state;
+                catch (_b) {
+                    _this.state = state;
                 }
             }
         };
-        this.callListeners = () => {
-            this.listeners.forEach(listener => {
-                listener(this.state);
+        this.callListeners = function () {
+            _this.listeners.forEach(function (listener) {
+                listener(_this.state);
             });
         };
-        this.callCompare = () => {
-            if (!this.compareFunc) {
-                return this.callListeners();
+        this.callCompare = function () {
+            if (!_this.compareFunc) {
+                return _this.callListeners();
             }
-            const isUpdate = this.compareFunc(this.prevState, this.state);
-            isUpdate && this.callListeners();
+            var isUpdate = _this.compareFunc(_this.prevState, _this.state);
+            isUpdate && _this.callListeners();
         };
-        this.getState = () => {
-            return this.state;
+        this.getState = function () {
+            return _this.state;
         };
-        this.setState = (state) => {
-            const { useLocalStorage, stateName } = this.config;
-            this.prevState = this.state;
+        this.setState = function (state) {
+            var _a = _this.config, useLocalStorage = _a.useLocalStorage, stateName = _a.stateName;
+            _this.prevState = _this.state;
             if (typeof state === 'function') {
-                this.state = state(this.prevState);
+                _this.state = state(_this.prevState);
             }
             else {
-                this.state = state;
+                _this.state = state;
             }
             if (useLocalStorage && !!window.localStorage) {
-                window.localStorage.setItem(stateName, JSON.stringify(this.state));
+                window.localStorage.setItem(stateName, JSON.stringify(_this.state));
             }
-            this.callCompare();
-            return (actionName = 'setState') => {
-                stateLog(actionName, this.prevState, this.state);
+            _this.callCompare();
+            return function (actionName) {
+                if (actionName === void 0) { actionName = 'setState'; }
+                stateLog(actionName, _this.prevState, _this.state);
             };
         };
-        this.subscribe = (listener) => {
-            this.updateStateFromLocalStorage();
-            this.listeners.push(listener);
-            return () => {
-                this.listeners = this.listeners.filter(_listener => _listener !== listener);
+        this.subscribe = function (listener) {
+            _this.updateStateFromLocalStorage();
+            _this.listeners.push(listener);
+            return function () {
+                _this.listeners = _this.listeners.filter(function (_listener) { return _listener !== listener; });
             };
         };
-        this.shouldUpdate = (compareFunc) => {
-            this.compareFunc = compareFunc;
+        this.shouldUpdate = function (compareFunc) {
+            _this.compareFunc = compareFunc;
         };
         this.state = initialState;
         this.config = config;
@@ -67,7 +70,10 @@ export class CreateState {
         }
         this.updateStateFromLocalStorage();
     }
-}
-export default function createState(initialState, config = defaultConfig) {
+    return CreateState;
+}());
+export { CreateState };
+export default function createState(initialState, config) {
+    if (config === void 0) { config = defaultConfig; }
     return new CreateState(initialState, config);
 }

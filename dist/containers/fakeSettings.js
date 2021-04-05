@@ -1,1 +1,1 @@
-export const __wilInstagramShopify__ = [];
+export var __wilInstagramShopify__ = [];

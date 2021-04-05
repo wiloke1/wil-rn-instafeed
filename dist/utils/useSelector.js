@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 export default function useSelector(state) {
-    const [reactState, setReactState] = useState(state.getState());
-    const handleSubscribe = () => {
+    var _a = useState(state.getState()), reactState = _a[0], setReactState = _a[1];
+    var handleSubscribe = function () {
         setReactState(state.getState());
     };
-    useEffect(() => {
-        const unsub = state.subscribe(handleSubscribe);
-        return () => {
+    useEffect(function () {
+        var unsub = state.subscribe(handleSubscribe);
+        return function () {
             unsub();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps

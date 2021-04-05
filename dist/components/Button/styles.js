@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
     container: {
         flexWrap: 'wrap',
     },

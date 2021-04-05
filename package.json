@@ -5,16 +5,17 @@
   "author": "wiloke1",
   "license": "MIT",
   "repository": "wiloke1/wil-rn-instafeed",
-  "main": "dist/index.jsx",
-  "module": "dist/index.jsx",
-  "jsnext:main": "dist/index.jsx",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "jsnext:main": "dist/index.js",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
   },
   "scripts": {
+    "jsx2js": "find dist -name *.jsx -exec sh -c 'mv $0 ${0%.jsx}.js' {} \\;",
     "build:ts": "ttsc && babel src --out-dir dist",
-    "build": "rm -rf dist && yarn build:ts && cp -R dist example/node_modules/wil-rn-instafeed",
+    "build": "rm -rf dist && yarn build:ts && cp -R dist example/node_modules/wil-rn-instafeed && yarn jsx2js",
     "start": "export NODE_ENV=dev && rm -rf example/node_modules/wil-rn-instafeed/dist && yarn build && node ./index.js",
     "test": "cross-env CI=1 react-scripts-ts test --env=jsdom",
     "test:watch": "react-scripts-ts test --env=jsdom",
